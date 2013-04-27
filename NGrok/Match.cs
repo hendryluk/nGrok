@@ -22,15 +22,30 @@ namespace NGrok
             _match = match;
         }
 
-        public IDictionary<string, string[]> Captures
+        public IEnumerable<Capture> Captures
         {
             get
             {
                 return _regexp.GetGroupNames()
                        .Select(key => new { key, group = _match.Groups[key] })
                        .GroupBy(x => x.key, x => x.group)
-                       .ToDictionary(x => x.Key, x => x.Where(g => g.Success).Select(g => g.Value).ToArray());
+                       .Select(x => GetCapture(x.Key, x));
             }
+        }
+
+        private Capture GetCapture(string key, IEnumerable<Group> groups)
+        {
+            var patternName = key = Grok.GetCaptureName(key) ?? key;
+            string identifier = null;
+
+            var splits = key.Split(new[]{':'}, 2);
+            if (splits.Length > 1)
+            {
+                patternName = splits[0];
+                identifier = splits[1].Trim();
+            }
+            
+            return new Capture(patternName, identifier, groups.Where(g => g.Success).Select(g => g.Value).ToArray());
         }
     }
 }

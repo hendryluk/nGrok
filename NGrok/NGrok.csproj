@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Capture.cs" />
     <Compile Include="Grok.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="Pile.cs" />

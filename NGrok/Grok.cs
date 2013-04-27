@@ -74,10 +74,10 @@ namespace NGrok
                 {
                     var regex = _patterns[matchedPattern];
                     var capture = string.Format("a{0}", index);
-                    var replacement_pattern = string.Format("(?<{0}>{1})", capture, regex);
+                    var replacementPattern = string.Format("(?<{0}>{1})", capture, regex);
                     _captureMap[capture] = m.Groups["name"].Value;
 
-                    ExpandedPattern = ExpandedPattern.Replace(m.Groups[0].Value, replacement_pattern);
+                    ExpandedPattern = ExpandedPattern.Replace(m.Groups[0].Value, replacementPattern);
                     index++;
                 }
                 else
